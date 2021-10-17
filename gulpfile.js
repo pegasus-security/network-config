@@ -17,17 +17,16 @@ const __optionsSetter = function (chunk) {
 };
 
 const compileHandlebars = function () {
+  const options = { noEscape: true, strict: true };
+
   handlebars.registerHelper('include', value => {
     const contents = readFileSync(value).toString('utf-8');
-    return handlebars.compile(contents)(__options.data);
+    return handlebars.compile(contents, options)(__options.data);
   });
 
   return through2.obj(function (chunk, _, callback) {
     const contents = chunk.contents.toString('utf-8');
-    const compiledContents = handlebars.compile(contents, {
-      noEscape: true,
-      strict: true
-    })(__options.data);
+    const compiledContents = handlebars.compile(contents, options)(__options.data);
 
     chunk.contents = new Buffer.from(compiledContents);
     callback(null, chunk);
