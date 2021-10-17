@@ -1,4 +1,5 @@
 const { argv } = require('yargs');
+const { readFileSync } = require('fs');
 const _ = require('lodash');
 const gulp = require('gulp');
 const tap = require('gulp-tap');
@@ -8,15 +9,25 @@ const through2 = require('through2');
 const handlebars = require('handlebars');
 const json5 = require('json5');
 
+require('handlebars-helpers')();
+
 const __options = {};
 const __optionsSetter = function (chunk) {
   __options.data = json5.parse(chunk.contents.toString('utf-8'));
 };
 
 const compileHandlebars = function () {
+  handlebars.registerHelper('include', value => {
+    const contents = readFileSync(value).toString('utf-8');
+    return handlebars.compile(contents)(__options.data);
+  });
+
   return through2.obj(function (chunk, _, callback) {
     const contents = chunk.contents.toString('utf-8');
-    const compiledContents = handlebars.compile(contents)(__options.data);
+    const compiledContents = handlebars.compile(contents, {
+      noEscape: true,
+      strict: true
+    })(__options.data);
 
     chunk.contents = new Buffer.from(compiledContents);
     callback(null, chunk);
