@@ -34,7 +34,7 @@ gulp.task('compile::options', async () => {
 
 gulp.task('compile::handlebars', async () => {
   return gulp.src(argv.source)
-    .pipe(compileHandlebars({ world: "world" }))
+    .pipe(compileHandlebars())
     .pipe(rename({ extname: '.rsc' }))
     .pipe(gulp.dest('./dist'));
 });
