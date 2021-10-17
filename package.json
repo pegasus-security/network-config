@@ -4,12 +4,16 @@
   "license": "MIT",
   "repository": "https://github.com/pegasus-security/network-config.git",
   "scripts": {
-    "compile": "gulp compile --source=./src/routeros.handlebars"
+    "compile": "gulp compile --source=./src/routeros.handlebars --options=./src/routeros.jsonc"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
+    "gulp-merge-json": "^2.1.1",
     "gulp-rename": "^2.0.0",
+    "gulp-tap": "^2.0.0",
     "handlebars": "^4.7.7",
+    "json5": "^2.2.0",
+    "lodash": "^4.17.21",
     "yargs": "^17.2.1"
   }
 }
