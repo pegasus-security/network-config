@@ -1,3 +1,16 @@
 {
-  "world": "world"
+  "world": "world",
+  "domains": {
+    "default": {
+      "vlans": {
+        "10..15": {
+          "name": "vlan{{vlan::id}}-shared",
+          "address": "192.168.{{vlan::id}}.1/24"
+        },
+        "2": {
+          "name": "vlan{{vlan::id}}"
+        }
+      }
+    }
+  }
 }
